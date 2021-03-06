@@ -4,9 +4,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Note
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
-
-# Create your views here.
-
+import sqlite3
 
 @login_required
 def index(request):
@@ -20,7 +18,7 @@ def addnote(request):
     note = Note()
     note.note_text = request.POST['note_text']
     note.pub_date = timezone.now()
-    note.owner_id = request.user
+    note.owner = request.user
     try:
         if request.POST['public_note'] == 'on':
             note.private = False
@@ -29,4 +27,29 @@ def addnote(request):
     note.save()
 
     notes = Note.objects.filter(owner_id=request.user.id)
+    return redirect('/')
+
+def readnote(request, noteid):
+     note = Note.objects.get(pk=noteid)
+     response = HttpResponse(note.note_text, content_type='text/html')
+     return response
+
+## Flaw 1 and 3 fixed by replace the other readnote function with this one
+# def readnote(request, noteid):
+#     note = Note.objects.get(pk=noteid)
+#     if request.user == note.owner:
+#         response = HttpResponse(note.note_text, content_type='text/plain')
+#         return response
+#     else:
+#         return render(request, 'notes/forbidden.html')
+
+def deletenote(request):
+    conn = sqlite3.connect('db.sqlite3')
+    cursor = conn.cursor()
+    note_to_delete = request.POST['note_text']
+    try:
+        response = cursor.execute('DELETE FROM notes_note WHERE note_text=\'' + note_to_delete + '\';')
+        conn.commit()
+    except:
+        pass
     return redirect('/')
