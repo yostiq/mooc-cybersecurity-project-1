@@ -12,7 +12,7 @@ from django.views.decorators.csrf import csrf_exempt
 def index(request):
     user_notes = Note.objects.filter(owner_id=request.user.id)
     public_notes = Note.objects.filter(private = False).exclude(owner_id=request.user.id)
-    return render(request, 'polls/index.html', { 'user_notes' : user_notes, 'public_notes' : public_notes })
+    return render(request, 'notes/index.html', { 'user_notes' : user_notes, 'public_notes' : public_notes })
 
 @login_required
 @csrf_exempt
