@@ -54,7 +54,8 @@ def deletenote(request):
         pass
     return redirect('/')
 
-def deletenote(request):
-    note_to_delete = request.POST['note_text']
-    Note.objects.filter(note_text = note_to_delete, owner = request.user).delete()
-    return redirect('/')
+## Flaw 4 fixed with this function
+# def deletenote(request):
+#     note_to_delete = request.POST['note_text']
+#     Note.objects.filter(note_text = note_to_delete, owner = request.user).delete()
+#     return redirect('/')
