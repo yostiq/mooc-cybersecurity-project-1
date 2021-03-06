@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<head>
+    <title>Notes</title>
+</head>
+
+<body>
+    <h1 style="color: blueviolet;">Notes</h1>
+    <h3>My notes</h3>
+    <ul>
+        {% for note in user_notes %}
+        <li>{{ note }}</li>
+        {% endfor %}
+    </ul>
+    <br>
+
+    <h3>Public notes from others</h3>
+    <ul>
+        {% for note in public_notes %}
+        <li>{{ note }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Add note</h2>
+    <form action='addnote/' method='POST'>
+        <input type="text" name='note_text' value='text' style="margin-bottom: 8px; height: 16px;">
+        <br>
+        <input type="checkbox" name='public_note' style="margin-bottom: 16px;">
+        <label for='private' style="margin-bottom: 16px;">Public note?</label>
+        <br>
+        <input type='submit'>
+    </form>
+
+    <br>
+    <form action='logout/' method='POST'>
+        {% csrf_token %}
+        <input type='submit' value='Logout'>
+    </form>
+</body>

@@ -70,6 +70,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'owasp.wsgi.application'
 
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
+
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
