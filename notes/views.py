@@ -34,7 +34,8 @@ def readnote(request, noteid):
      response = HttpResponse(note.note_text, content_type='text/html')
      return response
 
-## Flaw 1 and 3 fixed by replace the other readnote function with this one
+## Flaws 1, 3 and 5 are fixed by replacing the other readnote function with this one
+# @login_required
 # def readnote(request, noteid):
 #     note = Note.objects.get(pk=noteid)
 #     if request.user == note.owner:
@@ -55,6 +56,7 @@ def deletenote(request):
     return redirect('/')
 
 ## Flaw 4 fixed with this function
+# @login_required
 # def deletenote(request):
 #     note_to_delete = request.POST['note_text']
 #     Note.objects.filter(note_text = note_to_delete, owner = request.user).delete()
